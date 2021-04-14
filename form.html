@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/d2910a6dea.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <title>Salvus</title>
+</head>
+<body>
+    <header>
+        <a href="index.html" class="headLink">Salvus</a>
+    </header>
+    <main>
+        <div class="sidebyside">
+            <div>
+                <h2><i class="fas fa-id-card"></i>  ID: </h2>
+            </div>
+            <div>
+                <input type="text" name="ID" id="ID" placeholder="Enter student ID" class="idbar">
+            </div>
+            <div>
+                <input type="button" class="verify" value="Check" onclick="showText()">
+            </div>
+        </div>
+        <p style="display: none" id="nameConfirm">Your name is John Doe</p>
+        <div>
+            <h2 style="text-align: center;"><i class="fas fa-user-shield"></i> Status: </h2>
+        </div>
+        <div class="sidebyside" style="padding-top: 15px;">
+            <div>
+                <input type="radio" id="safe" name="status" value="safe">
+                <label for="safe" class="text"><strong>Safe</strong></label>
+            </div>
+            <div>
+                <input type="radio" id="inperil" name="status" value="inperil">
+                <label for="inperil" class="text"><strong>In Peril</strong></label>
+            </div>
+            <div>
+                <input type="radio" id="home" name="status" value="home">
+                <label for="home" class="text"><strong>Home</strong></label>
+            </div>
+        </div>
+        <div class="sidebyside">
+            <div>
+                <h2><i class="fas fa-map-marker-alt"></i> Use My Location: </h2>
+            </div>
+            <div>
+                <input type="checkbox" name="location" value="location" checked>
+            </div>
+        </div>
+        <div class="button">
+            <a href="complete.html" class="buttonLink">Submit</a>
+        </div>
+    </main>
+    <footer>
+        <p>Copyright &copy; 2020 Salvus</p>
+    </footer>
+    <script>
+        function toggleText() {
+            var text = document.getElementById("nameConfirm");
+            if (text.style.display === "none") {
+                text.style.display = "block";
+            } else {
+                text.style.display = "none";
+            }
+        }       
+    </script>
+</body>
+<script type="text/javascript" src="dist/main.js"></script>
+</html>

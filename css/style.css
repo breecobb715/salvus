@@ -1,0 +1,143 @@
+:root{
+    --primary-color: #555;
+    --text-color: #fff;
+    --secondary-color: #333;
+    --confirm-color: #0d4712;
+}
+*{
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+body{
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #000;
+    color: var(--text-color);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+header{
+    background-color: var(--primary-color);
+    padding: 10px;
+}
+main{
+    flex: 1;
+}
+/*Link Formatting*/
+.buttonLink{
+    text-decoration: none;
+    color: var(--text-color);
+    border: 3px solid var(--secondary-color);
+    background-color: var(--primary-color);
+    padding: 30px 0;
+    text-align: center;
+}
+.buttonLink:hover{
+    background-color: var(--secondary-color);
+    border: 3px solid var(--primary-color);
+}
+.buttonLink:active{
+    background-color: var(--confirm-color);
+}
+h2{
+    font-size: 30px;
+}
+.headLink{
+    color: var(--text-color);
+    text-decoration: none;
+    font-size: 30px;
+}
+/*Buttons*/
+.button{
+    display: flex;
+    justify-content: center;
+    padding-bottom: 10px;
+}
+.button>a{
+    width: 95%;
+}
+.verify{
+    padding: 8px;
+}
+.searchButton{
+    float: left;
+    width: 20%;
+    padding: 10px;
+    background: #2196F3;
+    color: white;
+    font-size: 17px;
+    border: 1px solid grey;
+    border-left: none;
+    cursor: pointer;
+}
+/*Divs*/
+.sidebyside{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    padding: 30px 20px;
+    margin: 0 5px;
+}
+.sidebyside>div{
+    padding: 0 20px;
+}
+.idbar{
+    padding: 8px;
+    margin-bottom: 30px;
+}
+input[type=radio]{
+    margin: 10px;
+    padding: 0 5px;
+}
+label{
+    font-size: 20px;
+}
+input[type=checkbox]{
+    width: 30px;
+    height: 30px;
+}
+
+.pcontain{
+    display: flex;
+    justify-content: center;
+}
+.pcontain>p{
+    width: 50%;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+footer{
+    background-color: var(--primary-color);
+    padding: 10px 0;
+    text-align: center;
+}
+.hero{
+    background: mediumslateblue center center/cover;
+    height: 100vh;
+    position: relative;
+    color: #fff;
+}
+
+.hero .content{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    height: 100%;
+    padding: 0 20px;
+}
+.login{
+    width: 50%;
+    padding-bottom: 10px
+}
+@media(max-width: 768px){
+    .sidebyside{
+        justify-content: center;
+    }
+    .pcontain>p{
+        width: 80%;
+    }
+}
