@@ -23,7 +23,7 @@
                 <input type="button" class="verify" value="Check" onclick="showText()">
             </div>
         </div>
-        <p style="display: none" id="nameConfirm">Your name is John Doe</p>
+        <p style="visibility: hidden" id="nameConfirm">Your name is John Doe</p>
         <div>
             <h2 style="text-align: center;"><i class="fas fa-user-shield"></i> Status: </h2>
         </div>
@@ -57,12 +57,12 @@
         <p>Copyright &copy; 2020 Salvus</p>
     </footer>
     <script>
-        function toggleText() {
+        function showText() {
             var text = document.getElementById("nameConfirm");
-            if (text.style.display === "none") {
-                text.style.display = "block";
+            if (text.style.visibility === "hidden") {
+                text.style.visibility = "visible";
             } else {
-                text.style.display = "none";
+                text.style.visibility = "hidden";
             }
         }       
     </script>
