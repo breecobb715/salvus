@@ -9,31 +9,31 @@
 </head>
 <body>
     <header>
-        <a href="index.html" class="headLink">Salvus</a>
+        <a href="index.html" class="head-link">Salvus</a>
     </header>
     <main>
-        <div class="sidebyside">
+        <div class="side-by-side">
             <div>
                 <h2><i class="fas fa-id-card"></i>  ID: </h2>
             </div>
             <div>
-                <input type="text" name="ID" id="ID" placeholder="Enter student ID" class="idbar">
+                <input type="text" name="ID" id="ID" placeholder="Enter student ID" class="input-bar">
             </div>
             <div>
                 <input type="button" class="verify" value="Check" onclick="showText()">
             </div>
         </div>
-        <p style="visibility: hidden" id="nameConfirm">Your name is John Doe</p>
+        <p style="visibility: hidden" id="name-confirm">Your name is John Doe</p>
         <div>
             <h2 style="text-align: center;"><i class="fas fa-user-shield"></i> Status: </h2>
         </div>
-        <div class="sidebyside" style="padding-top: 15px;">
+        <div class="side-by-side" style="padding-top: 15px;">
             <div>
                 <input type="radio" id="safe" name="status" value="safe">
                 <label for="safe" class="text"><strong>Safe</strong></label>
             </div>
             <div>
-                <input type="radio" id="inperil" name="status" value="inperil">
+                <input type="radio" id="in-peril" name="status" value="in-peril">
                 <label for="inperil" class="text"><strong>In Peril</strong></label>
             </div>
             <div>
@@ -41,7 +41,7 @@
                 <label for="home" class="text"><strong>Home</strong></label>
             </div>
         </div>
-        <div class="sidebyside">
+        <div class="side-by-side">
             <div>
                 <h2><i class="fas fa-map-marker-alt"></i> Use My Location: </h2>
             </div>
@@ -50,7 +50,7 @@
             </div>
         </div>
         <div class="button">
-            <a href="complete.html" class="buttonLink">Submit</a>
+            <a href="complete.html" class="button-link">Submit</a>
         </div>
     </main>
     <footer>
@@ -58,7 +58,7 @@
     </footer>
     <script>
         function showText() {
-            var text = document.getElementById("nameConfirm");
+            var text = document.getElementById("name-confirm");
             if (text.style.visibility === "hidden") {
                 text.style.visibility = "visible";
             } else {
