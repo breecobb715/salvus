@@ -209,4 +209,8 @@ footer{
     .p-contain>p{
         width: 80%;
     }
+    .flex-columns .column, .flex-grid .column{
+        flex: 100%;
+        max-width: 100%;
+    }
 }
