@@ -19,6 +19,6 @@ window.showText = function() {
     }
 }
 
-module.exports = {
-    showText: showText,
-};
+// module.exports = {
+//     showText: showText,
+// };
