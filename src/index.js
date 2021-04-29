@@ -7,7 +7,7 @@ axios.get('http://localhost:3000/students')
 
 window.showText = function() {
     var text = document.getElementById("name-confirm");
-    var given_id = document.getElementById("ID");
+    var given_id = document.getElementById("ID").value;
     axios.get(`/students/${given_id}`, function(data) {
         debugger;
         document.getElementById("name-confirm").innerHTML = "Your name is" + data.name;
