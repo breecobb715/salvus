@@ -1,6 +1,9 @@
 const path = require('path');
 
 module.exports = {
+  watchOptions: {
+    ignored: /node_modules/
+  },
   entry: './src/index.js',
   output: {
     filename: 'main.js',
