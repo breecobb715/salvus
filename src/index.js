@@ -1,6 +1,6 @@
 import axios from 'axios';
-const accountSid = "AC57600a19c9f7aa2d8784e2ef3038c2c6";
-const authToken = "54413ba292c0b77f00da6c5f1b5a5946";
+const accountSid = "TWILIO_ACCOUNT_SID";
+const authToken = "TWILIO_AUTH_TOKEN";
 const client = require('twilio')(accountSid, authToken);
 
 axios.get('http://localhost:3000/students')
