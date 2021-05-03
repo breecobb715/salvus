@@ -46,11 +46,19 @@
                 <h2><i class="fas fa-map-marker-alt"></i> Use My Location: </h2>
             </div>
             <div>
-                <input type="checkbox" name="location" value="location" checked>
+                <input type="checkbox" name="location" value="location" id="location" onchange = "showManualLocation()" checked>
+            </div>
+        </div>
+        <div class="side-by-side" id="hidden-location" display="none">
+            <div>
+                <h2>Enter Location:</h2>
+            </div>
+            <div>
+                <input type="text" name="location_input" id="location_input" placeholder="Enter location/address" class="input-bar">
             </div>
         </div>
         <div class="button">
-            <a href="complete.html" class="button-link">Submit</a>
+            <a href="complete.html" class="button-link" onclick="submitForm()">Submit</a>
         </div>
     </main>
     <footer>
@@ -58,19 +66,4 @@
     </footer>
 </body>
 <script type="text/javascript" src="dist/main.js"></script>
-<!--<script>
-    function showText() {
-    var text = document.getElementById("name-confirm");
-    var given_id = document.getElementById("ID");
-    axios.get(`/students/${given_id}`, function(data) {
-        debugger;
-        document.getElementById("name-confirm").innerHTML = "Your name is" + data.name;
-    });
-    if (text.style.visibility === "hidden") {
-        text.style.visibility = "visible";
-    } else {
-        text.style.visibility = "hidden";
-    }
-}
-</script>-->
 </html>
