@@ -1,8 +1,7 @@
 import axios from 'axios';
-const accountSid = "TWILIO_ACCOUNT_SID";
-const authToken = "TWILIO_AUTH_TOKEN";
-const client = require('twilio')(accountSid, authToken);
-
+require('dotenv').config();
+/*console.log(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN)
+const client = require('twilio')(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);*/
 axios.get('http://localhost:3000/students')
 .then(function (response){
     console.log(response);
@@ -53,13 +52,13 @@ function sendEmail() {
         alert("mail sent successfully") 
       }); 
 }
-client.messages
+/*client.messages
     .create({
         body: "Your child JOHN DOE has updated their status to STATUS at LOCATION. Please take necessary actions to secure your student's safety, and remind them to update their status to \"At Home\"",
         from: '+13252080653',
         to: '+17203629336'
     })
-    .then(message => console.log(message.sid));
+    .then(message => console.log(message.sid));*/
 
 function updateLocation(){
     const successfulLookup = (position) => {
@@ -67,7 +66,6 @@ function updateLocation(){
         fetch(`https://api.opencagedata.com/geocode/v1/json?q=${latitude}+${longitude}&key=794de57bd17a4799b9a28383449eba2a`)
         .then(response => response.json().then(data => console.log(data.results[0].formatted)));
     }
-
     if(navigator.geolocation){
         navigator.geolocation.getCurrentPosition(successfulLookup, console.log, {maximumAge:10000, timeout: 5000, enableHighAccuracy: true});
     }else{
