@@ -1,4 +1,5 @@
 const path = require('path');
+const Dotenv = require('dotenv-webpack');
 
 module.exports = {
   watchOptions: {
@@ -13,5 +14,8 @@ module.exports = {
     fs: "empty",
     net: 'empty',
     tls: 'empty'
-  }
+  },
+  plugins: [
+    new Dotenv()
+  ]
 };

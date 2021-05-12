@@ -1,18 +1,16 @@
 import axios from 'axios';
-require('dotenv').config();
-/*console.log(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN)
-const client = require('twilio')(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);*/
+
+const client = require('twilio')(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
 axios.get('http://localhost:3000/students')
 .then(function (response){
     console.log(response);
 });
-
 window.showText = function() {
     var text = document.getElementById("name-confirm");
     var given_id = document.getElementById("ID").value;
-    axios.get(`http://localhost:3000/students/${given_id}`, function(data) {
-        debugger;
-        document.getElementById("name-confirm").innerHTML = "Your name is" + data.name;
+    axios.get(`http://localhost:3000/students/${given_id}`).then(function(response) {
+        document.getElementById("name-confirm").innerHTML = "Your name is" + response.data[0].first_name;
+        console.log(response);
     });
     if (text.style.visibility === "hidden") {
         text.style.visibility = "visible";
@@ -20,7 +18,7 @@ window.showText = function() {
         text.style.visibility = "hidden";
     }
 }
-function showManualLocation() {
+window.showManualLocation = function() {
     var manualLocation = document.getElementById("hidden-location");
     if(manualLocation.style.display === "none"){
         manualLocation.style.display = "flex";
@@ -35,7 +33,7 @@ function submitForm() {
     if(location_on){
         student_location = updateLocation()
     }else{
-        student_location = document.getElementById("location_input")
+        student_location = document.getElementById("location_input").value;
     }
 }
 function sendEmail() { 
@@ -52,13 +50,13 @@ function sendEmail() {
         alert("mail sent successfully") 
       }); 
 }
-/*client.messages
+client.messages
     .create({
         body: "Your child JOHN DOE has updated their status to STATUS at LOCATION. Please take necessary actions to secure your student's safety, and remind them to update their status to \"At Home\"",
         from: '+13252080653',
         to: '+17203629336'
     })
-    .then(message => console.log(message.sid));*/
+    .then(message => console.log(message.sid));
 
 function updateLocation(){
     const successfulLookup = (position) => {
@@ -71,4 +69,6 @@ function updateLocation(){
     }else{
         alert("Geolocation API is not supported in your browser")
     }
+}
+function unsubmitForm(){
 }
