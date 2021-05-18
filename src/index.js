@@ -5,13 +5,14 @@ axios.get('http://localhost:3000/students')
 .then(function (response){
     console.log(response);
 });
-window.showText = function() {
+window.showText = async function() {
     var text = document.getElementById("name-confirm");
     var given_id = document.getElementById("ID").value;
-    axios.get(`http://localhost:3000/students/${given_id}`).then(function(response) {
-        document.getElementById("name-confirm").innerHTML = "Your name is" + response.data[0].first_name;
-        console.log(response);
+    let result;
+    await axios.get(`http://localhost:3000/students/${given_id}`).then(function(response) {
+        result = response.data[0].first_name + " " + response.data[0].last_name
     });
+    document.getElementById("name-confirm").innerHTML = "Your name is " + result
     if (text.style.visibility === "hidden") {
         text.style.visibility = "visible";
     } else {
@@ -26,7 +27,7 @@ window.showManualLocation = function() {
         manualLocation.style.display = "none";
     }
 }
-function submitForm() {
+window.submitForm = async function() {
     var given_id = document.getElementById("ID").value;
     var location_on = document.getElementById("location").checked;
     var student_location;
@@ -35,8 +36,15 @@ function submitForm() {
     }else{
         student_location = document.getElementById("location_input").value;
     }
+    await axios.get(`http://localhost:3000/students/${given_id}`).then(function(response) {
+        result = response.data[0].first_name + " " + response.data[0].last_name
+    });
 }
-function sendEmail() { 
+async function sendEmail() { 
+    let result
+    await axios.get(`http://localhost:3000/students/${given_id}`).then(function(response) {
+        result = response.data[0].first_name + " " + response.data[0].last_name
+    });
     Email.send({ 
       Host: "smtp.gmail.com", 
       Username: "breecobb715@gmail.com", 
@@ -44,7 +52,7 @@ function sendEmail() {
       To: 'breecobb715@gmail.com', 
       From: "breecobb715@gmail.com", 
       Subject: "Salvus Student Status Update",
-      Body: "Your child JOHN DOE has updated their status to STATUS at LOCATION. Please take necessary actions to secure your student's safety, and remind them to update their status to \"At Home\"",
+      Body: `Your child ${result} has updated their status to STATUS at LOCATION. Please take necessary actions to secure your student's safety, and remind them to update their status to \"At Home\"`,
     }) 
       .then(function (message) { 
         alert("mail sent successfully") 
@@ -52,7 +60,7 @@ function sendEmail() {
 }
 client.messages
     .create({
-        body: "Your child JOHN DOE has updated their status to STATUS at LOCATION. Please take necessary actions to secure your student's safety, and remind them to update their status to \"At Home\"",
+        body: `Your child JOHN DOE has updated their status to STATUS at LOCATION. Please take necessary actions to secure your student's safety, and remind them to update their status to \"At Home\"`,
         from: '+13252080653',
         to: '+17203629336'
     })
