@@ -41,15 +41,15 @@ window.submitForm = async function() {
         contact_method = response.data[0].parent_contact_method;
         contact_info = response.data[0].parent_contact_info;
     });
-    if(contact_method == "email"){
-        sendEmail();
-    }else if(contact_method == "text"){
-        sendText();
+    if(contact_method == "EMAIL"){
+        sendEmail(given_id, contact_info);
+    }else if(contact_method == "TEXT"){
+        sendText(given_id, contact_info);
     }else{
         console.log("No contact method found!");
     }
 }
-async function sendEmail() { 
+async function sendEmail(given_id, contactEmail) { 
     let name, status, location
     await axios.get(`http://localhost:3000/students/${given_id}`).then(function(response) {
         name = response.data[0].first_name + " " + response.data[0].last_name;
@@ -60,7 +60,7 @@ async function sendEmail() {
       Host: "smtp.gmail.com", 
       Username: "breecobb715@gmail.com", 
       Password: process.env.EMAIL_PASS, 
-      To: 'breecobb715@gmail.com', 
+      To: contactEmail, 
       From: "breecobb715@gmail.com", 
       Subject: "Salvus Student Status Update",
       Body: `Your child ${result} has updated their status to ${status} at ${location}. Please take necessary actions to secure your student's safety, and remind them to update their status to \"At Home\"`,
@@ -69,7 +69,7 @@ async function sendEmail() {
         console.log("Email sent")
       }); 
 }
-async function sendText(){
+async function sendText(given_id, contactText){
     let name, status, location
     await axios.get(`http://localhost:3000/students/${given_id}`).then(function(response) {
         name = response.data[0].first_name + " " + response.data[0].last_name;
@@ -80,7 +80,7 @@ async function sendText(){
         .create({
             body: `Your child ${name} has updated their status to ${status} at ${location}. Please take necessary actions to secure your student's safety, and remind them to update their status to \"At Home\"`,
             from: '+13252080653',
-            to: '+17203629336'
+            to: `+1${contactText}`
         })
         .then(message => console.log(message.sid));
 }
@@ -99,6 +99,7 @@ function updateLocation(){
 }
 window.updateComplete = async function() {
     let name, parent, status, location;
+    var given_id = document.getElementById("ID").value;
     await axios.get(`http://localhost:3000/students/${given_id}`).then(function(response) {
         name = response.data[0].first_name.toUpperCase() + " " + response.data[0].last_name.toUpperCase()
         parent = response.data[0].parent_first_name.toUpperCase() + " " + response.data[0].last_name.toUpperCase()
@@ -107,9 +108,45 @@ window.updateComplete = async function() {
     });
     document.getElementById("base-info").innerHTML = `${name}, your guardian ${parent} has been notified that you are ${status} at ${location}.`
     document.getElementById("unsubmit-info").innerHTML = `If you are not ${name}, please press "Unsubmit Form" to undo your changes.`
-    if (text.style.visibility === "hidden") {
-        text.style.visibility = "visible";
-    } else {
-        text.style.visibility = "hidden";
-    }
+}
+window.makeStudent = function(){
+    var newStudent = {
+        first_name: document.getElementById("first_name").value,
+        last_name: document.getElementById("last_name").value,
+        student_id: document.getElementById("student_id").value,
+        parent_first_name: document.getElementById("par_first_name").value,
+        parent_last_name: document.getElementById("par_last_name").value,
+        parent_contact_method: document.getElementById("contact_method").value,
+        parent_contact_info: document.getElementById("contact").value
+    };
+    axios.post('/login', {newStudent});
+    document.getElementById("first_name").value = "";
+    document.getElementById("last_name").value = "";
+    document.getElementById("student_id").value = "";
+    document.getElementById("par_first_name").value = "";
+    document.getElementById("par_last_name").value = "";
+    document.getElementById("contact_method").value = "";
+    document.getElementById("contact").value = "";
+}
+
+if(document.getElementById("admin-view")){
+    console.log("Admin View Only")
+    axios.get('http://localhost:3000/students')
+        .then(function (response){
+        for (var i = 0; i < response.data.length; i++) {
+            var first_name = response.data[i].first_name;
+            let wellSection = document.createElement("div");
+            wellSection.className = "well";
+            wellSection.setAttribute("id", `student-well-${i}`);
+            var wellParent = document.getElementById("well-section");
+            wellParent.appendChild(wellSection);
+            wellSection.innerHTML = `
+                <h2>${response.data[i].first_name} ${response.data[i].last_name}</h2>
+                <h4>Student ID: ${response.data[i].student_id}</h4>
+                <h4>Parent Name: ${response.data[i].parent_first_name} ${response.data[i].parent_last_name}</h4>
+                <h4>Parent Contact Information: ${response.data[i].parent_contact_method} ${response.data[i].parent_contact_info}</h4>
+                <hr>
+            `;
+        }
+    });
 }
