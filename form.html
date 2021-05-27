@@ -11,7 +11,7 @@
     <header>
         <a href="index.html" class="head-link">Salvus</a>
     </header>
-    <main>
+    <section id="form" style="display: flex">
         <div class="side-by-side">
             <div>
                 <h2><i class="fas fa-id-card"></i>  ID: </h2>
@@ -57,10 +57,20 @@
                 <input type="text" name="location_input" id="location_input" placeholder="Enter location/address" class="input-bar">
             </div>
         </div>
-        <div class="button">
-            <a href="complete.html" class="button-link" onclick="submitForm()">Submit</a>
+        <button class = "switch-button" onclick="submitForm()">Submit</button>
+    </section>
+    <section id="complete" style="display: none">
+        <div class="p-contain" id="base-info">
+            <p style="font-size: 25px; padding-top: 30px">JOHN DOE, your guardian JANE DOE has been notified that you are SAFE at 123 Place St.</p>   
         </div>
-    </main>
+        <div class="p-contain">
+            <p>If someone else has to submit the form, please press "Resubmit Form"</p>
+        </div>
+        <div class="p-contain" id="unsubmit-info">
+            <p>If you are not JOHN DOE, please press "Unsubmit Form" to undo your changes.</p>
+        </div>
+        <button class = "switch-button" onclick="clearForm()">Resubmit Form</button>
+    </section>
     <footer>
         <p>Copyright &copy; 2020 Salvus</p>
     </footer>

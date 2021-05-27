@@ -5,11 +5,13 @@ axios.get('http://localhost:3000/students')
 .then(function (response){
     console.log(response);
 });
+const url = "http://localhost:3000/"
 window.showText = async function() {
     var text = document.getElementById("name-confirm");
     var given_id = document.getElementById("ID").value;
     let result;
-    await axios.get(`http://localhost:3000/students/${given_id}`).then(function(response) {
+
+    await axios.get(`${url}students/${given_id}`).then(function(response) {
         result = response.data[0].first_name + " " + response.data[0].last_name;
     });
     document.getElementById("name-confirm").innerHTML = "Your name is " + result
@@ -18,6 +20,24 @@ window.showText = async function() {
     } else {
         text.style.visibility = "hidden";
     }
+}
+window.swapPage = function(){
+    var form = document.getElementById("form")
+    var complete = document.getElementById("complete")
+    if(form.style.display === "none"){
+        complete.style.display = "none"
+        form.style.display = "flex"
+    }else{
+        form.style.display = "none"
+        complete.style.display = "flex"
+    }
+}
+window.clearForm = function(){
+    document.getElementById("ID").value = ""
+    document.getElementById("safe").checked = false
+    document.getElementById("in-peril").checked = false
+    document.getElementById("home").checked = false
+    swapPage()
 }
 window.showManualLocation = function() {
     var manualLocation = document.getElementById("hidden-location");
@@ -37,7 +57,7 @@ window.submitForm = async function() {
         student_location = document.getElementById("location_input").value;
     }
     let contact_method, contact_info
-    await axios.get(`http://localhost:3000/students/${given_id}`).then(function(response) {
+    await axios.get(`${url}students/${given_id}`).then(function(response) {
         contact_method = response.data[0].parent_contact_method;
         contact_info = response.data[0].parent_contact_info;
     });
@@ -48,10 +68,12 @@ window.submitForm = async function() {
     }else{
         console.log("No contact method found!");
     }
+    updateComplete(given_id);
+    swapPage();
 }
 async function sendEmail(given_id, contactEmail) { 
     let name, status, location
-    await axios.get(`http://localhost:3000/students/${given_id}`).then(function(response) {
+    await axios.get(`${url}students/${given_id}`).then(function(response) {
         name = response.data[0].first_name + " " + response.data[0].last_name;
         status = response.data[0].status;
         location = response.data[0].location;
@@ -71,7 +93,7 @@ async function sendEmail(given_id, contactEmail) {
 }
 async function sendText(given_id, contactText){
     let name, status, location
-    await axios.get(`http://localhost:3000/students/${given_id}`).then(function(response) {
+    await axios.get(`${url}students/${given_id}`).then(function(response) {
         name = response.data[0].first_name + " " + response.data[0].last_name;
         status = response.data[0].status;
         location = response.data[0].location;
@@ -97,10 +119,9 @@ function updateLocation(){
         alert("Geolocation API is not supported in your browser")
     }
 }
-window.updateComplete = async function() {
+window.updateComplete = async function(given_id) {
     let name, parent, status, location;
-    var given_id = document.getElementById("ID").value;
-    await axios.get(`http://localhost:3000/students/${given_id}`).then(function(response) {
+    await axios.get(`${url}students/${given_id}`).then(function(response) {
         name = response.data[0].first_name.toUpperCase() + " " + response.data[0].last_name.toUpperCase()
         parent = response.data[0].parent_first_name.toUpperCase() + " " + response.data[0].last_name.toUpperCase()
         status = response.data[0].status.toUpperCase()
@@ -119,7 +140,9 @@ window.makeStudent = function(){
         parent_contact_method: document.getElementById("contact_method").value,
         parent_contact_info: document.getElementById("contact").value
     };
-    axios.post('/login', {newStudent});
+    debugger
+    console.log(newStudent)
+    axios.post(`${url}newstudent`, {newStudent});
     document.getElementById("first_name").value = "";
     document.getElementById("last_name").value = "";
     document.getElementById("student_id").value = "";
@@ -131,7 +154,7 @@ window.makeStudent = function(){
 
 if(document.getElementById("admin-view")){
     console.log("Admin View Only")
-    axios.get('http://localhost:3000/students')
+    axios.get(`${url}students`)
         .then(function (response){
         for (var i = 0; i < response.data.length; i++) {
             var first_name = response.data[i].first_name;

@@ -26,8 +26,9 @@ header{
     align-items: center;
     justify-content: space-between;
 }
-main{
+section{
     flex: 1;
+    flex-direction: column;
 }
 h2{
     font-size: 30px;
@@ -51,7 +52,7 @@ footer{
 }
 
 /*Link Formatting*/
-.button-link{
+.button-link, .switch-button{
     text-decoration: none;
     color: var(--text-color);
     border: 3px solid var(--secondary-color);
@@ -59,11 +60,11 @@ footer{
     padding: 30px 0;
     text-align: center;
 }
-.button-link:hover{
+.button-link:hover, .switch-button:hover{
     background-color: var(--secondary-color);
     border: 3px solid var(--primary-color);
 }
-.button-link:active{
+.button-link:active, .switch-button:active{
     background-color: var(--confirm-color);
 }
 .head-link{
