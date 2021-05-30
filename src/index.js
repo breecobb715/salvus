@@ -56,6 +56,7 @@ window.submitForm = async function() {
     }else{
         student_location = document.getElementById("location_input").value;
     }
+    await axios.post(`${url}updatestudent/${given_id}`);
     let contact_method, contact_info
     await axios.get(`${url}students/${given_id}`).then(function(response) {
         contact_method = response.data[0].parent_contact_method;
@@ -131,7 +132,7 @@ window.updateComplete = async function(given_id) {
     document.getElementById("unsubmit-info").innerHTML = `If you are not ${name}, please press "Unsubmit Form" to undo your changes.`
 }
 window.makeStudent = function(){
-    var newStudent = {
+    axios.post(`${url}newstudent`, {
         first_name: document.getElementById("first_name").value,
         last_name: document.getElementById("last_name").value,
         student_id: document.getElementById("student_id").value,
@@ -139,10 +140,7 @@ window.makeStudent = function(){
         parent_last_name: document.getElementById("par_last_name").value,
         parent_contact_method: document.getElementById("contact_method").value,
         parent_contact_info: document.getElementById("contact").value
-    };
-    debugger
-    console.log(newStudent)
-    axios.post(`${url}newstudent`, {newStudent});
+    });
     document.getElementById("first_name").value = "";
     document.getElementById("last_name").value = "";
     document.getElementById("student_id").value = "";
