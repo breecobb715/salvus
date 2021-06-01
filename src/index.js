@@ -1,5 +1,6 @@
 import axios from 'axios';
-
+import{ init } from 'emailjs-com';
+init(process.env.EMAIL_USER_ID);
 const client = require('twilio')(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
 axios.get('http://localhost:3000/students')
 .then(function (response){
@@ -10,7 +11,6 @@ window.showText = async function() {
     var text = document.getElementById("name-confirm");
     var given_id = document.getElementById("ID").value;
     let result;
-
     await axios.get(`${url}students/${given_id}`).then(function(response) {
         result = response.data[0].first_name + " " + response.data[0].last_name;
     });
@@ -56,15 +56,20 @@ window.submitForm = async function() {
     }else{
         student_location = document.getElementById("location_input").value;
     }
-    await axios.post(`${url}updatestudent/${given_id}`);
+    await axios.post(`${url}updatestudent/${given_id}`, {
+        status: document.querySelector('input[name="status"]:checked').value,
+        location: student_location
+    });
     let contact_method, contact_info
     await axios.get(`${url}students/${given_id}`).then(function(response) {
         contact_method = response.data[0].parent_contact_method;
         contact_info = response.data[0].parent_contact_info;
     });
+    console.log("Got console info")
     if(contact_method == "EMAIL"){
         sendEmail(given_id, contact_info);
     }else if(contact_method == "TEXT"){
+        console.log("Contact method found")
         sendText(given_id, contact_info);
     }else{
         console.log("No contact method found!");
@@ -79,31 +84,24 @@ async function sendEmail(given_id, contactEmail) {
         status = response.data[0].status;
         location = response.data[0].location;
     });
-    Email.send({ 
-      Host: "smtp.gmail.com", 
-      Username: "breecobb715@gmail.com", 
-      Password: process.env.EMAIL_PASS, 
-      To: contactEmail, 
-      From: "breecobb715@gmail.com", 
-      Subject: "Salvus Student Status Update",
-      Body: `Your child ${result} has updated their status to ${status} at ${location}. Please take necessary actions to secure your student's safety, and remind them to update their status to \"At Home\"`,
-    }) 
-      .then(function (message) { 
-        console.log("Email sent")
-      }); 
+    console.log("Email sent?")
+    emailjs.send(process.env.EMAIL_SERVICE_ID, process.env.EMAIL_TEMPLATE_ID, {name, status, location}, process.env.EMAIL_USER_ID);
+    console.log("Email sent!")
 }
 async function sendText(given_id, contactText){
-    let name, status, location
+    console.log("Given ID is " + given_id + " contact number is " + contactText);
+    let name, status, location;
     await axios.get(`${url}students/${given_id}`).then(function(response) {
         name = response.data[0].first_name + " " + response.data[0].last_name;
         status = response.data[0].status;
         location = response.data[0].location;
     });
+    console.log("Name is " + name + " status is " + status + " location is " + location);
     client.messages
         .create({
             body: `Your child ${name} has updated their status to ${status} at ${location}. Please take necessary actions to secure your student's safety, and remind them to update their status to \"At Home\"`,
             from: '+13252080653',
-            to: `+1${contactText}`
+            to: contactText
         })
         .then(message => console.log(message.sid));
 }
@@ -128,8 +126,8 @@ window.updateComplete = async function(given_id) {
         status = response.data[0].status.toUpperCase()
         location = response.data[0].location.toUpperCase()
     });
-    document.getElementById("base-info").innerHTML = `${name}, your guardian ${parent} has been notified that you are ${status} at ${location}.`
-    document.getElementById("unsubmit-info").innerHTML = `If you are not ${name}, please press "Unsubmit Form" to undo your changes.`
+    document.getElementById("base-info").innerHTML = `<p>${name}, your guardian ${parent} has been notified that you are ${status} at ${location}.</p>`;
+    document.getElementById("unsubmit-info").innerHTML = `<p>If you are not ${name}, please press "Unsubmit Form" to undo your changes.</p>`;
 }
 window.makeStudent = function(){
     axios.post(`${url}newstudent`, {

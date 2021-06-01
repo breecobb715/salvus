@@ -210,7 +210,10 @@ footer{
     font-size: 50px;
     font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif
 }
-
+#base-info{
+    font-size: 25px; 
+    padding-top: 30px;
+}
 /*Media Queries*/
 @media(max-width: 768px){
     .side-by-side{
